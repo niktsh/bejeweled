@@ -5,8 +5,8 @@ import sk.tuke.gamestudio.game.bejeweled.core.Field;
 
 public class Bejeweled {
     public static void main(String[] args) {
-        Field field = new Field(3,3);
-        ConsoleUI ui = new ConsoleUI(field, 60L);
+        Field field = new Field(7,7);
+        ConsoleUI ui = new ConsoleUI(field, 5L);
         ui.play();
     }
 }

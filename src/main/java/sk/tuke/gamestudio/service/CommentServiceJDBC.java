@@ -9,16 +9,16 @@ public class CommentServiceJDBC implements CommentService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
-    public static final String SELECT = "SELECT game, player, comment, commentedOn FROM comment WHERE game = ?";
-    public static final String INSERT = "INSERT INTO comment (game, player, comment, commentedOn) VALUES (?, ?, ?, ?)";
+    public static final String SELECT = "SELECT player, game, comment, commentedOn FROM comment WHERE game = ?";
+    public static final String INSERT = "INSERT INTO comment (player, game, comment, commentedOn) VALUES (?, ?, ?, ?)";
     public static final String DELETE = "DELETE FROM comment";
 
     @Override
     public void addComment(Comment comment) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            statement.setString(1, comment.getGame());
-            statement.setString(2, comment.getPlayer());
+            statement.setString(1, comment.getPlayer());
+            statement.setString(2, comment.getGame());
             statement.setString(3, comment.getComment());
             statement.setTimestamp(4, new Timestamp(comment.getCommentedOn().getTime()));
             statement.executeUpdate();

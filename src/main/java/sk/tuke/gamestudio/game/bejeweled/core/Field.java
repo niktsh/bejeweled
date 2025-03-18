@@ -7,7 +7,7 @@ import java.util.Random;
 public class Field {
     private final int rowCount;
     private final int columnCount;
-    private final Tile[][] field;
+    final Tile[][] field;
     private boolean[][] matches;
     private int score;
 
@@ -26,7 +26,7 @@ public class Field {
         return score;
     }
 
-    private void addScore(int points) {
+    void addScore(int points) {
         score += points;
     }
 
@@ -139,12 +139,12 @@ public class Field {
         return foundMatch;
     }
 
-    private boolean isValidCoordinate(int row1, int column1, int row2, int column2) {
+    boolean isValidCoordinate(int row1, int column1, int row2, int column2) {
         return row1 < 0 || row1 >= getRows() || row2 < 0 || row2 >= getRows() ||
                 column1 < 0 || column1 >= getColumns() || column2 < 0 || column2 >= getColumns();
     }
 
-    private boolean isAdjacent(int row1, int column1, int row2, int column2) {
+    boolean isAdjacent(int row1, int column1, int row2, int column2) {
         return (Math.abs(row1 - row2) == 1 && column1 == column2) ||
                 (Math.abs(column1 - column2) == 1 && row1 == row2);
     }
@@ -174,8 +174,8 @@ public class Field {
                 }
 
                 addScore(destroyedJewels * 10);
-                System.out.println(String.format("\u001B[32mTile (%d,%d) successfully swapped with tile (%d,%d)\u001B[0m\n",
-                        row1 + 1, column1 + 1, row2 + 1, column2 + 1));
+                System.out.printf("\u001B[32mTile (%d,%d) successfully swapped with tile (%d,%d)\u001B[0m\n%n",
+                        row1 + 1, column1 + 1, row2 + 1, column2 + 1);
 
             } else {
                 System.out.println("\u001B[31mSwap is not possible.\u001B[0m\n");
@@ -216,7 +216,7 @@ public class Field {
         return false;
     }
 
-    private int clearMatches() {
+    int clearMatches() {
         int destroyedjewels = 0;
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
@@ -229,7 +229,7 @@ public class Field {
         return destroyedjewels;
     }
 
-    private void dropTiles() {
+    void dropTiles() {
         for (int col = 0; col < columnCount; col++) {
             int emptyRow = rowCount - 1;
 
@@ -245,7 +245,7 @@ public class Field {
         }
     }
 
-    private void fillEmptyTiles() {
+    void fillEmptyTiles() {
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
                 if (field[row][col] instanceof EmptyTile) {
@@ -257,20 +257,43 @@ public class Field {
 
     public void shuffleBoard() {
         Random random = new Random();
+        int max_atempts = 10 + (rowCount * columnCount) / 2;
 
-        do {
+        for (int attempt = 0; attempt < max_atempts; attempt++) {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
                     int randomRow = random.nextInt(rowCount);
                     int randomCol = random.nextInt(columnCount);
 
+
                     Tile temp = field[i][j];
                     field[i][j] = field[randomRow][randomCol];
                     field[randomRow][randomCol] = temp;
+
+                    if (hasPossibleMoves()) {
+                        setState(GameState.PLAYING);
+                        return;
+                    }
                 }
             }
-        } while (!hasPossibleMoves());
-        setState(GameState.PLAYING);
+        }
+
+        System.out.println("\u001B[33mNo valid moves found after " + max_atempts +
+                " swaps. Generating a new board..\u001B[0m");
+        generate();
     }
 
+    public void new_game() {
+        this.score = 0;
+        this.gameState = GameState.PLAYING;
+        generate();
+    }
+
+    public void clearArray_for_test() {
+        for (int i = 0; i < matches.length; i++) {
+            for (int j = 0; j < matches[i].length; j++) {
+                matches[i][j] = false;
+            }
+        }
+    }
 }

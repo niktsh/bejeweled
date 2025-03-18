@@ -12,17 +12,18 @@ public class ScoreServiceJDBC implements ScoreService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
-    public static final String SELECT = "SELECT game, player, points, playedOn FROM score WHERE game = ? ORDER BY points DESC LIMIT 10";
-    public static final String DELETE = "DELETE FROM score";
-    public static final String INSERT = "INSERT INTO score (game, player, points, playedOn) VALUES (?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO score (player, game, points, playedOn) VALUES (?, ?, ?, ?)";
+    private static final String SELECT = "SELECT player, game, points, playedOn FROM score WHERE game = ? ORDER BY points DESC LIMIT 5";
+    private static final String DELETE = "DELETE FROM score";
+
 
     @Override
     public void addScore(Score score) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(INSERT)
         ) {
-            statement.setString(1, score.getGame());
-            statement.setString(2, score.getPlayer());
+            statement.setString(1, score.getPlayer());
+            statement.setString(2, score.getGame());
             statement.setInt(3, score.getPoints());
             statement.setTimestamp(4, new Timestamp(score.getPlayedOn().getTime()));
             statement.executeUpdate();
