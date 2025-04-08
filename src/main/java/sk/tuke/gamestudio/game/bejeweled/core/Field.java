@@ -257,7 +257,7 @@ public class Field {
 
     public void shuffleBoard() {
         Random random = new Random();
-        int max_atempts = 10 + (rowCount * columnCount) / 2;
+        int max_atempts = 40;
 
         for (int attempt = 0; attempt < max_atempts; attempt++) {
             for (int i = 0; i < rowCount; i++) {

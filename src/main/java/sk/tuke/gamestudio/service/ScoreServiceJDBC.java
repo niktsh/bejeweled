@@ -12,7 +12,10 @@ public class ScoreServiceJDBC implements ScoreService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
-    private static final String INSERT = "INSERT INTO score (player, game, points, playedOn) VALUES (?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO score (player, game, points, playedOn) " +
+            "VALUES (?, ?, ?, ?) " +
+            "ON CONFLICT (player, game) DO UPDATE " +
+            "SET points = EXCLUDED.points, playedOn = EXCLUDED.playedOn";
     private static final String SELECT = "SELECT player, game, points, playedOn FROM score WHERE game = ? ORDER BY points DESC LIMIT 5";
     private static final String DELETE = "DELETE FROM score";
 

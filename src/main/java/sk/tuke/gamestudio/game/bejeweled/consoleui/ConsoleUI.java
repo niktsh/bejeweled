@@ -1,5 +1,6 @@
 package sk.tuke.gamestudio.game.bejeweled.consoleui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
@@ -18,11 +19,18 @@ public class ConsoleUI {
     private final Long timeLimitMilliseconds;
     private Timer timer;
 
-    private final ScoreServiceJDBC scoreService = new ScoreServiceJDBC();
-    private final CommentServiceJDBC commentService = new CommentServiceJDBC();
-    private final RatingServiceJDBC ratingService = new RatingServiceJDBC();
+    @Autowired
+    private ScoreService scoreService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private RatingService ratingService;
+
     private String playerName;
 
+    @Autowired
     public ConsoleUI(Field field, Long timeLimitSeconds) {
         this.field = field;
         this.scanner = new Scanner(System.in);
@@ -46,7 +54,6 @@ public class ConsoleUI {
                     System.out.println("No possible moves! Shuffling the board...");
                     field.setState(GameState.NO_POSSIBLE_MOVES);
                     field.shuffleBoard();
-
                 }
             }
             if(timer != null) {
@@ -57,7 +64,7 @@ public class ConsoleUI {
             System.out.println("Game Over!");
             System.out.println("Final Score: " + field.getScore());
 
-            scoreService.addScore(new Score("Bejeweled", playerName, field.getScore(), new Date()));
+            scoreService.addScore(new Score(playerName, "Bejeweled", field.getScore(), new Date()));
 
             System.out.println("\nTop 10 players:");
             List<Score> topScores = scoreService.getTopScores("Bejeweled");
@@ -194,7 +201,7 @@ public class ConsoleUI {
     private void write_comment() {
         System.out.print("Enter your comment: ");
         String commentText = scanner.nextLine().trim();
-        commentService.addComment(new Comment("Bejeweled", playerName, commentText, new Date()));
+        commentService.addComment(new Comment(playerName,"Bejeweled", commentText, new Date()));
         System.out.println("Thanks for your comment!");
     }
 
@@ -242,7 +249,7 @@ public class ConsoleUI {
             try {
                 int rating = Integer.parseInt(input);
                 if (rating >= 1 && rating <= 5) {
-                    ratingService.setRating(new Rating("Bejeweled", playerName, rating, new Date()));
+                    ratingService.setRating(new Rating(playerName, "Bejeweled", rating, new Date()));
                     System.out.println("Thanks for your rating!");
                     break;
                 } else {
