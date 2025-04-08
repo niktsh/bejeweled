@@ -11,7 +11,7 @@ import java.util.List;
 public class ScoreServiceJDBC implements ScoreService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
-    public static final String PASSWORD = "postgres";
+    public static final String PASSWORD = "T1a2k3e4S";
     private static final String INSERT = "INSERT INTO score (player, game, points, playedOn) " +
             "VALUES (?, ?, ?, ?) " +
             "ON CONFLICT (player, game) DO UPDATE " +

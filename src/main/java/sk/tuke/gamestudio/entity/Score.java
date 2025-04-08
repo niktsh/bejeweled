@@ -14,6 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
+@NamedQuery(name = "Score.getScore",
+        query = "SELECT s FROM Score s WHERE s.game = :game AND s.player = :player")
 @NamedQuery( name = "Score.getTopScores",
         query = "SELECT s FROM Score s WHERE s.game=:game ORDER BY s.points DESC")
 @NamedQuery( name = "Score.reset",

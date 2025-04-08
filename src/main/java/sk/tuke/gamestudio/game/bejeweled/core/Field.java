@@ -149,10 +149,10 @@ public class Field {
                 (Math.abs(column1 - column2) == 1 && row1 == row2);
     }
 
-    public void swapTiles(int row1, int column1, int row2, int column2) {
+    public String swapTiles(int row1, int column1, int row2, int column2) {
         if (isAdjacent(row1, column1, row2, column2)) {
             if (isValidCoordinate(row1, column1, row2, column2)) {
-                return;
+                return "Invalid coordinates.";
             }
 
             matches = new boolean[rowCount][columnCount];
@@ -174,14 +174,12 @@ public class Field {
                 }
 
                 addScore(destroyedJewels * 10);
-                System.out.printf("\u001B[32mTile (%d,%d) successfully swapped with tile (%d,%d)\u001B[0m\n%n",
-                        row1 + 1, column1 + 1, row2 + 1, column2 + 1);
-
+                return String.format("Tile (%d,%d) successfully swapped with tile (%d,%d)", row1 + 1, column1 + 1, row2 + 1, column2 + 1);
             } else {
-                System.out.println("\u001B[31mSwap is not possible.\u001B[0m\n");
+                return "Swap is not possible.";
             }
         } else {
-            System.out.println("\u001B[31mInvalid value.\u001B[0m\n");
+            return "Invalid value.";
         }
     }
 

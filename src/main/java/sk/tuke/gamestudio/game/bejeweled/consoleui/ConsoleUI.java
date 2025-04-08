@@ -40,40 +40,51 @@ public class ConsoleUI {
     public void play() {
         start_game();
 
-        while (true) {
-            if (timeLimitMilliseconds != null) {
-                startTimer();
-            }
+        while (field.getState() != GameState.FAILED) {
+            switch (field.getState()) {
+                case PLAYING:
+                    if (timeLimitMilliseconds != null) {
+                        startTimer();
+                    }
 
-            while (field.getState() == GameState.PLAYING) {
-                show();
-                System.out.println("Current Score: " + field.getScore());
-                handleInput();
+                    show();
+                    System.out.println("Current Score: " + field.getScore());
+                    handleInput();
 
-                if (!field.hasPossibleMoves()) {
-                    System.out.println("No possible moves! Shuffling the board...");
-                    field.setState(GameState.NO_POSSIBLE_MOVES);
-                    field.shuffleBoard();
-                }
-            }
-            if(timer != null) {
-                timer.cancel();
-            }
-            show();
-            System.out.println("\nTime!");
-            System.out.println("Game Over!");
-            System.out.println("Final Score: " + field.getScore());
+                    if (!field.hasPossibleMoves()) {
+                        System.out.println("No possible moves! Shuffling the board...");
+                        field.setState(GameState.NO_POSSIBLE_MOVES);
+                        field.shuffleBoard();
+                    }
+                    break;
 
-            scoreService.addScore(new Score(playerName, "Bejeweled", field.getScore(), new Date()));
+                case SOLVED:
+                    if (timer != null) {
+                        timer.cancel();
+                    }
 
-            System.out.println("\nTop 10 players:");
-            List<Score> topScores = scoreService.getTopScores("Bejeweled");
-            for (Score s : topScores) {
-                System.out.println(s.getPlayer() + " - " + s.getPoints() + " points");
+                    show();
+                    System.out.println("\nTime!");
+                    System.out.println("Game Over!");
+                    System.out.println("Final Score: " + field.getScore());
+
+
+                    scoreService.addScore(new Score(playerName, "Bejeweled", field.getScore(), new Date()));
+
+                    System.out.println("\nTop 10 players:");
+                    List<Score> topScores = scoreService.getTopScores("Bejeweled");
+                    for (Score s : topScores) {
+                        System.out.println(s.getPlayer() + " - " + s.getPoints() + " points");
+                    }
+                    end_game();
+                    break;
+
+                default:
+                    break;
             }
-            end_game();
         }
     }
+
 
     private void handleInput() {
         System.out.print("\nPlease enter your selection: <x1 y1 x2 y2> SWAP TILES, <X> EXIT): ");
@@ -88,7 +99,8 @@ public class ConsoleUI {
             int x2 = Integer.parseInt(swapMatcher.group(3)) - 1;
             int y2 = Integer.parseInt(swapMatcher.group(4)) - 1;
 
-            field.swapTiles(x1, y1, x2, y2);
+            String swapResult = field.swapTiles(x1, y1, x2, y2);
+            System.out.println(swapResult);
             return;
         }
 
@@ -154,7 +166,7 @@ public class ConsoleUI {
     }
 
     private void end_game() {
-        while (true) {
+        while (field.getState() == GameState.SOLVED) {
             System.out.print("\nEnter '" + "\u001B[32myes\u001B[0m" + "' to play again, '"
                     + "\u001B[31mno\u001B[0m" + "' to exit, '"
                     + "\u001B[34mcomment\u001B[0m" + "' to leave or view comments, '"
@@ -242,7 +254,7 @@ public class ConsoleUI {
     }
 
     private void write_rating() {
-        while (true) {
+        while (field.getState() == GameState.SOLVED) {
             System.out.print("\nRate the game from 1 to 5: ");
             String input = scanner.nextLine().trim();
 

@@ -15,8 +15,21 @@ public class ScoreServiceJPA implements ScoreService {
     private EntityManager entityManager;
 
     @Override
-    public void addScore(Score score) throws ScoreException {
-        entityManager.persist(score);
+    public void addScore(Score score) {
+        Score existingScore = entityManager.createNamedQuery("Score.getScore", Score.class)
+                .setParameter("player", score.getPlayer())
+                .setParameter("game", score.getGame())
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+
+        if (existingScore != null) {
+            existingScore.setPoints(score.getPoints());
+            existingScore.setPlayedOn(score.getPlayedOn());
+            entityManager.merge(existingScore);
+        } else {
+            entityManager.persist(score);
+        }
     }
 
     @Override

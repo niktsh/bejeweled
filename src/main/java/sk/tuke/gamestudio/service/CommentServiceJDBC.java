@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CommentServiceJDBC implements CommentService {
     public static final String URL = "jdbc:postgresql://localhost/gamestudio";
     public static final String USER = "postgres";
-    public static final String PASSWORD = "postgres";
+    public static final String PASSWORD = "T1a2k3e4S";
     public static final String SELECT = "SELECT player, game, comment, commentedOn FROM comment WHERE game = ?";
     public static final String INSERT = "INSERT INTO comment (player, game, comment, commentedOn) VALUES (?, ?, ?, ?)";
     public static final String DELETE = "DELETE FROM comment";
