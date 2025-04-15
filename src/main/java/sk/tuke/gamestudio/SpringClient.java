@@ -32,7 +32,7 @@ public class SpringClient {
 
     @Bean
     public Long timeLimitSeconds() {
-        return 10L;
+        return 30L;
     }
 
     @Bean

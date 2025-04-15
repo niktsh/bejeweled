@@ -15,7 +15,20 @@ public class CommentServiceJPA implements CommentService {
 
     @Override
     public void addComment(Comment comment) throws CommentException {
-        entityManager.persist(comment);
+        List<Comment> existingComments = entityManager.createQuery(
+                "SELECT c FROM Comment c WHERE c.player = :player AND c.game = :game", Comment.class)
+                .setParameter("player", comment.getPlayer())
+                .setParameter("game", comment.getGame())
+                .getResultList();
+
+        if (!existingComments.isEmpty()) {
+            Comment existing = existingComments.get(0);
+            existing.setComment(comment.getComment());
+            existing.setCommentedOn(comment.getCommentedOn());
+            entityManager.merge(existing);
+        } else {
+            entityManager.persist(comment);
+        }
     }
 
     @Override
