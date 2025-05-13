@@ -1,0 +1,30 @@
+.top-players-page-container {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 0 0 0;
+    background: transparent;
+}
+
+.sidebar {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 24px;
+    height: 100%;
+    position: relative;
+    min-width: 0;
+}
+
+
+.sidebar-title {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
+}

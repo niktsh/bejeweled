@@ -1,0 +1,91 @@
+.top-scores {
+    width: 100%;
+}
+
+.top-scores-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+.top-scores-table th {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.top-scores-table td {
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+}
+
+.top-scores-table tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.top-scores-table tr:last-child td {
+    border-bottom: none;
+}
+
+.player-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.player-rank {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(50, 104, 241, 0.1);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #3268f1;
+    margin-right: 0.5rem;
+    box-sizing: border-box;
+}
+
+.player-rank.top-1 {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+}
+
+.player-rank.top-2 {
+    background: rgba(192, 192, 192, 0.1);
+    color: #c0c0c0;
+}
+
+.player-rank.top-3 {
+    background: rgba(205, 127, 50, 0.1);
+    color: #cd7f32;
+}
+
+.score-value {
+    font-weight: 600;
+    color: #43a047;
+}
+
+.date-value {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+/* Empty state */
+.empty-scores {
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+} 
