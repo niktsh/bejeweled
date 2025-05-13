@@ -2,6 +2,8 @@ package sk.tuke.gamestudio.game.bejeweled.core;
 
 import sk.tuke.gamestudio.game.bejeweled.type_of_tiles.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Field {
@@ -10,7 +12,6 @@ public class Field {
     final Tile[][] field;
     private boolean[][] matches;
     private int score;
-
     private GameState gameState;
 
     public Field(int rowCount, int columnCount) {
@@ -65,7 +66,7 @@ public class Field {
         };
     }
 
-    private void generate() {
+    public void generate() {
         do {
             for (int i = 0; i < rowCount; i++) {
                 for (int j = 0; j < columnCount; j++) {
@@ -161,7 +162,6 @@ public class Field {
                 field[row1][column1] = field[row2][column2];
                 field[row2][column2] = temp;
 
-
                 int destroyedJewels = 0;
                 destroyedJewels += clearMatches();
                 dropTiles();
@@ -183,8 +183,7 @@ public class Field {
         }
     }
 
-    private boolean isMatch(int row1, int col1, int row2, int col2) {
-
+    public boolean isMatch(int row1, int col1, int row2, int col2) {
         Tile temp = field[row1][col1];
         field[row1][col1] = field[row2][col2];
         field[row2][col2] = temp;
@@ -201,11 +200,9 @@ public class Field {
     public boolean hasPossibleMoves() {
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
-
                 if (col < columnCount - 1 && isMatch(row, col, row, col + 1)) {
                     return true;
                 }
-
                 if (row < rowCount - 1 && isMatch(row, col, row + 1, col)) {
                     return true;
                 }
@@ -243,6 +240,8 @@ public class Field {
         }
     }
 
+
+
     void fillEmptyTiles() {
         for (int row = 0; row < rowCount; row++) {
             for (int col = 0; col < columnCount; col++) {
@@ -262,7 +261,6 @@ public class Field {
                 for (int j = 0; j < columnCount; j++) {
                     int randomRow = random.nextInt(rowCount);
                     int randomCol = random.nextInt(columnCount);
-
 
                     Tile temp = field[i][j];
                     field[i][j] = field[randomRow][randomCol];

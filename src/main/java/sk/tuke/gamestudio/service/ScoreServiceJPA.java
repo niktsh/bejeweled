@@ -24,9 +24,11 @@ public class ScoreServiceJPA implements ScoreService {
                 .orElse(null);
 
         if (existingScore != null) {
-            existingScore.setPoints(score.getPoints());
-            existingScore.setPlayedOn(score.getPlayedOn());
-            entityManager.merge(existingScore);
+            if (score.getPoints() > existingScore.getPoints()) {
+                existingScore.setPoints(score.getPoints());
+                existingScore.setPlayedOn(score.getPlayedOn());
+                entityManager.merge(existingScore);
+            }
         } else {
             entityManager.persist(score);
         }

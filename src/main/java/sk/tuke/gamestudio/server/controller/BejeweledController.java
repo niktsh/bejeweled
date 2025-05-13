@@ -78,15 +78,13 @@ public class BejeweledController {
         return ResponseEntity.ok(Map.of("score", field.getScore()));
     }
 
-    // 5. Проверка на конец игры
-    @GetMapping("/is-over")
-    public ResponseEntity<Object> isGameOver() {
+    @PostMapping("/restart")
+    public ResponseEntity<Object> restartGame() {
         if (field == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "Game not started"));
         }
-
-        boolean hasMoves = field.hasPossibleMoves();
-        return ResponseEntity.ok(Map.of("isOver", !hasMoves));
+        field.new_game();
+        return ResponseEntity.ok(new FieldDto(field));
     }
 
     @PostMapping("gameover")
@@ -99,13 +97,4 @@ public class BejeweledController {
         return ResponseEntity.ok(Map.of("message", "Game over"));
     }
 
-    // 6. Перезапуск игры
-    @PostMapping("/restart")
-    public ResponseEntity<Object> restartGame() {
-        if (field == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Game not started"));
-        }
-        field.new_game();
-        return ResponseEntity.ok(new FieldDto(field));
-    }
 }

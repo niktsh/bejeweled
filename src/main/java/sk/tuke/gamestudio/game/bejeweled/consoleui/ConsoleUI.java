@@ -118,7 +118,6 @@ public class ConsoleUI {
 
     private void start_game() {
         System.out.println("Enter your name:");
-        playerName = scanner.nextLine().trim();
 
         System.out.println("Welcome to Bejeweled, " + playerName + "!");
         System.out.println("Swap adjacent tiles to match 3 or more of the same color.");
