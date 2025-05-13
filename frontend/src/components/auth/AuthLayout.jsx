@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
-import './SignIn.css';
+import './Auth.css';
 
 const AuthLayout = () => {
     const { currentUser, isGuest } = useContext(AuthContext);
