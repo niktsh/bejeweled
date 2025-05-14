@@ -25,7 +25,7 @@ public class BejeweledController {
     private Field field;
     private String playerName;
 
-    // 1. Начало игры
+
     @PostMapping("/start")
     public ResponseEntity<FieldDto> startGame(@RequestBody(required = false) Map<String, Object> body) {
         int rows = body != null && body.get("rows") != null ?
@@ -37,7 +37,6 @@ public class BejeweledController {
         return ResponseEntity.ok(new FieldDto(field));
     }
 
-    // 2. Свап
     @PostMapping("/swap")
     public ResponseEntity<Object> swapTiles(@RequestBody SwapRequest request) {
         if (field == null) {
@@ -60,7 +59,6 @@ public class BejeweledController {
         }
     }
 
-    // 3. Получение текущего поля
     @GetMapping("/field")
     public ResponseEntity<Object> getField() {
         if (field == null) {
@@ -69,7 +67,6 @@ public class BejeweledController {
         return ResponseEntity.ok(new FieldDto(field));
     }
 
-    // 4. Получение очков
     @GetMapping("/score")
     public ResponseEntity<Object> getScore() {
         if (field == null) {
@@ -93,7 +90,7 @@ public class BejeweledController {
             return ResponseEntity.badRequest().body(Map.of("error", "Game not started"));
         }
 
-        field.setState(GameState.SOLVED); // допустим, у тебя есть enum GameState
+        field.setState(GameState.SOLVED);
         return ResponseEntity.ok(Map.of("message", "Game over"));
     }
 
