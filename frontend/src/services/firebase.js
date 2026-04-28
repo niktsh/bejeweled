@@ -12,12 +12,12 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBFMatwLFLf6CXtpBE4OBylqy1Jr1mdeKI",
-    authDomain: "gamestudio-9900.firebaseapp.com",
-    projectId: "gamestudio-9900",
-    storageBucket: "gamestudio-9900.firebasestorage.app",
-    messagingSenderId: "789625611255",
-    appId: "1:789625611255:web:8a685f0634e1ec7eecc4f2",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
     measurementId: "G-2DW75PQ742"
 };
 
