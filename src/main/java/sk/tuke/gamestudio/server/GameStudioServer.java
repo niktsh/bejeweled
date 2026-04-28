@@ -30,8 +30,8 @@ public class GameStudioServer {
         return new RatingServiceJPA();
     }
 
-    @Bean
-    public UserService userService() {
-        return new UserServiceJPA();
-    }
+    // @Bean
+// public UserService userService() {
+//     return new UserServiceJPA();
+// }
 }
